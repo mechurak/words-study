@@ -20,7 +20,8 @@ const routes = routerOptions.map(route => {
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // TODO: Find proper way to enable history mode
+  // mode: 'history',
   routes
 })
 
