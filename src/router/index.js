@@ -4,8 +4,6 @@ import firebase from 'firebase'
 
 const routerOptions = [
   { path: '/', component: 'Landing' },
-  { path: '/signin', component: 'Signin' },
-  { path: '/signup', component: 'Signup' },
   { path: '/home', component: 'Home', meta: { requiresAuth: true } },
   { path: '*', component: 'NotFound' }
 ]
@@ -29,7 +27,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const isAuthenticated = firebase.auth().currentUser
   if (requiresAuth && !isAuthenticated) {
-    next('/signin')
+    next('/')
   } else {
     next()
   }

@@ -11,7 +11,7 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
-        <v-list-tile  v-if="isAuthenticated" @click="userSignOut">
+        <v-list-tile v-if="isAuthenticated" @click="userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -76,8 +76,6 @@
           ]
         } else {
           return [
-            { title: 'Sign Up', path: '/signup', icon: 'face' },
-            { title: 'Sign In', path: '/signin', icon: 'lock_open' }
           ]
         }
       }
