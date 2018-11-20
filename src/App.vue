@@ -72,7 +72,8 @@
       menuItems () {
         if (this.isAuthenticated) {
           return [
-            { title: 'Home', path: '/home', icon: 'home' }
+            { title: 'Home', path: '/home', icon: 'home' },
+            { title: 'Load', path: '/load', icon: 'cloud_download' }
           ]
         } else {
           return [
