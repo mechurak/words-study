@@ -5,10 +5,7 @@
     </div>
     <textarea id="my_textarea" @input="update">
     </textarea>
-    <v-text-field
-      label="Regular"
-      placeholder="Placeholder"
-    ></v-text-field>
+    <div id="temp_result" v-html="highlightHtml"></div>
   </div>
 </template>
 
@@ -70,8 +67,24 @@ export default {
   width: 400px;
   height: 120px;
 }
+#temp_result {
+  width: 400px;
+  height: 50px;
+}
 .diff_highlights, #my_textarea {
-  font: 16px/24px 'Open Sans', sans-serif;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+#temp_result {
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.2;
   letter-spacing: 1px;
 }
 .diff_container {
@@ -88,10 +101,15 @@ export default {
   pointer-events: none;
 }
 .diff_highlights {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: transparent;
-    text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+  text-align: left;
+}
+#temp_result {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: left;
 }
 #my_textarea {
   display: block;
@@ -105,13 +123,19 @@ export default {
   overflow: auto;
   resize: none;
 }
+#temp_result {
+  display: block;
+  position: relative;
+  border: 2px solid #74637f;
+  top: -30px;
+}
 .diff_highlights > .green {
   color: transparent;
   outline-color: green;
   outline-style: solid;
 }
 .diff_highlights > .red {
-  color: transparent;  
+  color: transparent;
   background-color: red;
 }
 </style>
