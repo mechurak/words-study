@@ -1,11 +1,10 @@
 <template>
   <div class="diff_container">
     <div class="backdrop">
-        <div class="diff_highlights" v-html="highlightHtml"></div>
+        <div class="diff_highlights" contenteditable="true" v-html="highlightHtml"></div>
     </div>
-    <textarea id="my_textarea" @input="update">
-    </textarea>
-    <div id="temp_result" v-html="highlightHtml"></div>
+    <div id="input_str" contenteditable="true" @input="update">
+    </div>
   </div>
 </template>
 
@@ -20,14 +19,10 @@ export default {
   },
   methods: {
     update (event) {
-      console.log('update', event.target.value)
-      console.log(event)
-
-      var originText = event.target.value
+      var originText = event.target.innerText
 
       var jsdiff = require('diff')
       var diff = jsdiff.diffChars(this.leftStr, originText)
-      console.log(diff)
       var resultHtml = ''
       var tempHtml = ''
       var startIndex = 0
@@ -51,10 +46,7 @@ export default {
           resultHtml = resultHtml + tempHtml
           startIndex = endIndex
         }
-        console.log(resultHtml)
       })
-      console.log('result')
-      console.log(resultHtml)
 
       this.highlightHtml = resultHtml
     }
@@ -63,29 +55,16 @@ export default {
 </script>
 
 <style>
-.diff_container, .backdrop, #my_textarea {
+.diff_container, .backdrop, #input_str {
   width: 400px;
   height: 120px;
 }
-#temp_result {
-  width: 400px;
-  height: 50px;
-}
-.diff_highlights, #my_textarea {
+.diff_highlights, #input_str {
   font-family: sans-serif;
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
-  line-height: 1.2;
-  letter-spacing: 1px;
-}
-#temp_result {
-  font-family: sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: 1px;
+  line-height: 1.3;
 }
 .diff_container {
   display: block;
@@ -106,12 +85,7 @@ export default {
   color: transparent;
   text-align: left;
 }
-#temp_result {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  text-align: left;
-}
-#my_textarea {
+#input_str {
   display: block;
   position: absolute;
   z-index: 2;
@@ -122,12 +96,7 @@ export default {
   background-color: transparent;
   overflow: auto;
   resize: none;
-}
-#temp_result {
-  display: block;
-  position: relative;
-  border: 2px solid #74637f;
-  top: -30px;
+  text-align: left;
 }
 .diff_highlights > .green {
   color: transparent;
