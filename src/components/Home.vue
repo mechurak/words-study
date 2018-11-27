@@ -8,10 +8,10 @@
         <p>This is a user's home page</p>
       </v-flex>
       <v-flex xs12 class="text-xs-center" mt-3>
-        <p>Never let your memories greater than your dreams.</p>
+        <p>{{ leftStr }}</p>
       </v-flex>
       <v-flex xs12 class="text-xs-center" mt-3>
-        <Diff/>
+        <Diff :left-str="leftStr"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -21,6 +21,11 @@
 import Diff from './Diff.vue'
 
 export default {
+  data () {
+    return {
+      leftStr: 'Never let your memories greater than your dreams.'
+    }
+  },
   components: {
     Diff
   }

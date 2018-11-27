@@ -10,19 +10,20 @@
 
 <script>
 export default {
+  props: {
+    leftStr: String
+  },
   data () {
     return {
-      leftStr: 'Never let your memories greater than your dreams.',
-      rightStr: '',
       highlightHtml: ''
     }
   },
   methods: {
     update (event) {
-      var originText = event.target.innerText
+      var inputStr = event.target.innerText
 
       var jsdiff = require('diff')
-      var diff = jsdiff.diffChars(this.leftStr, originText)
+      var diff = jsdiff.diffChars(this.leftStr, inputStr)
       var resultHtml = ''
       var tempHtml = ''
       var startIndex = 0
@@ -31,7 +32,7 @@ export default {
         var endIndex = startIndex + part.count
         if (color === 'red') {
           if (part.value.length > 0 && part.value.trim()) {
-            tempHtml = '<span class="red">' + originText.substr(startIndex, part.count) + '</span>'
+            tempHtml = '<span class="red">' + inputStr.substr(startIndex, part.count) + '</span>'
             resultHtml = resultHtml + tempHtml
           }
           startIndex = endIndex
@@ -42,7 +43,7 @@ export default {
             resultHtml = resultHtml + tempHtml
           }
         } else {
-          tempHtml = originText.substr(startIndex, part.count)
+          tempHtml = inputStr.substr(startIndex, part.count)
           resultHtml = resultHtml + tempHtml
           startIndex = endIndex
         }
