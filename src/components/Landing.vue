@@ -18,6 +18,7 @@
       <v-flex xs12 sm6 offset-sm3 class="text-xs-center" mt-5>
         <v-btn v-if="!isAuthenticated" id=signInBtn @click="userSignIn" :disabled="loading">Sign in with Google</v-btn>
         <v-btn v-if="isAuthenticated" to="/home" color="primary">Home</v-btn>
+        <v-btn @click="test" color="primary">Test</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -33,6 +34,9 @@ export default {
   methods: {
     userSignIn () {
       this.$store.dispatch('userSignInWithGoogle')
+    },
+    test () {
+      console.log('test')
     }
   },
   computed: {

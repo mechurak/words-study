@@ -1,7 +1,6 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firebase from 'firebase'
 import router from '@/router'
 
 Vue.use(Vuex)
@@ -26,26 +25,26 @@ export const store = new Vuex.Store({
   },
   actions: {
     userSignInWithGoogle ({commit}) {
-      commit('setLoading', true)
-      var provider = new firebase.auth.GoogleAuthProvider()
-      // provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-      firebase.auth().signInWithPopup(provider)
-      .then(firebaseUser => {
-        commit('setUser', {email: firebaseUser.user.email, token: firebaseUser.credential.accessToken})
-        commit('setLoading', false)
-        commit('setError', null)
-        router.push('/home')
-      })
-      .catch(error => {
-        commit('setError', error.message)
-        commit('setLoading', false)
-      })
+      // commit('setLoading', true)
+      // var provider = new firebase.auth.GoogleAuthProvider()
+      // // provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+      // firebase.auth().signInWithPopup(provider)
+      // .then(firebaseUser => {
+      //   commit('setUser', {email: firebaseUser.user.email, token: firebaseUser.credential.accessToken})
+      //   commit('setLoading', false)
+      //   commit('setError', null)
+      //   router.push('/home')
+      // })
+      // .catch(error => {
+      //   commit('setError', error.message)
+      //   commit('setLoading', false)
+      // })
     },
     autoSignIn ({commit}, payload) {
       commit('setUser', {email: payload.email})
     },
     userSignOut ({commit}) {
-      firebase.auth().signOut()
+      // firebase.auth().signOut()
       commit('setUser', null)
       router.push('/')
     }

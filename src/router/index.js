@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import firebase from 'firebase'
 
 const routerOptions = [
   { path: '/', component: 'Landing' },
@@ -24,14 +23,15 @@ const router = new Router({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const isAuthenticated = firebase.auth().currentUser
-  if (requiresAuth && !isAuthenticated) {
-    next('/')
-  } else {
-    next()
-  }
-})
+// TODO: Enable beforeEach()
+// router.beforeEach((to, from, next) => {
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+//   const isAuthenticated = firebase.auth().currentUser
+//   if (requiresAuth && !isAuthenticated) {
+//     next('/')
+//   } else {
+//     next()
+//   }
+// })
 
 export default router
