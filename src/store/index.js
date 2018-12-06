@@ -39,6 +39,7 @@ export const store = new Vuex.Store({
       //   commit('setError', error.message)
       //   commit('setLoading', false)
       // })
+      console.log('userSignInWithGoogle')
     },
     autoSignIn ({commit}, payload) {
       commit('setUser', {email: payload.email})
