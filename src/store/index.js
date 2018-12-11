@@ -24,30 +24,30 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    userSignInWithGoogle ({commit}) {
-      // commit('setLoading', true)
-      // var provider = new firebase.auth.GoogleAuthProvider()
-      // // provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-      // firebase.auth().signInWithPopup(provider)
-      // .then(firebaseUser => {
-      //   commit('setUser', {email: firebaseUser.user.email, token: firebaseUser.credential.accessToken})
-      //   commit('setLoading', false)
-      //   commit('setError', null)
-      //   router.push('/home')
-      // })
-      // .catch(error => {
-      //   commit('setError', error.message)
-      //   commit('setLoading', false)
-      // })
-      console.log('userSignInWithGoogle')
+    signIn ({commit}) {
+      console.log('signIn')
+      commit('setLoading', true)
+      // eslint-disable-next-line
+      gapi.auth2.getAuthInstance().signIn()
+      commit('setLoading', false)
+      commit('setError', null)
+    },
+    updateSigninStatus ({commit}, isSignedIn) {
+      console.log('updateSigninStatus', isSignedIn)
+      if (isSignedIn) {
+        commit('setUser', 'temp')
+        router.push('/home')
+      } else {
+        commit('setUser', null)
+        router.push('/')
+      }
     },
     autoSignIn ({commit}, payload) {
       commit('setUser', {email: payload.email})
     },
     userSignOut ({commit}) {
-      // firebase.auth().signOut()
-      commit('setUser', null)
-      router.push('/')
+      // eslint-disable-next-line
+      gapi.auth2.getAuthInstance().signOut()
     }
   },
   getters: {
