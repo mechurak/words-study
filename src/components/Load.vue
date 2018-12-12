@@ -8,7 +8,21 @@
         <p>This is a page to import words data from google sheet</p>
       </v-flex>
       <v-flex xs12 sm6 offset-sm3 class="text-xs-center" mt-5>
-        <v-btn @click="listMajors" color="primary">listMajors</v-btn>
+        <v-btn @click="listSheets" color="primary">list Sheets</v-btn>
+      </v-flex>
+      <v-flex xs12 class="text-xs-center" mt-3>
+        <v-list v-if="items.length > 0">
+          <template v-for="item in items">
+            <v-list-tile
+              :key="item.name"
+              @click="selectSheet(item.id)"
+              >
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.name"></v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
       </v-flex>
     </v-layout>
   </v-container>
@@ -18,12 +32,40 @@
 var gapi = window.gapi
 
 export default {
+  data () {
+    return {
+      items: []  // {'name': 'test title', 'id': 'sheet_id'}
+    }
+  },
   methods: {
-    listMajors () {
+    listSheets () {
+      gapi.client.drive.files.list({
+        'pageSize': 10,
+        'q': 'mimeType = "application/vnd.google-apps.spreadsheet"',
+        'fields': 'nextPageToken, files(id, name)'
+      }).then(response => {
+        console.log(response)
+        console.log('Files:')
+        var files = response.result.files
+        console.log(files)
+        if (files && files.length > 0) {
+          this.items = files
+          for (var i = 0; i < files.length; i++) {
+            var file = files[i]
+            console.log(file.name + ' (' + file.id + ')')
+          }
+        } else {
+          console.log('No files found.')
+        }
+      })
+    },
+    selectSheet (sheetId) {
+      console.log('selectSheet ()', sheetId)
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-        range: 'Class Data!A2:E'
-      }).then(function (response) {
+        spreadsheetId: sheetId,
+        range: '1:2'
+      }).then(response => {
+        console.log(response)
         var range = response.result
         if (range.values.length > 0) {
           for (var i = 0; i < range.values.length; i++) {
