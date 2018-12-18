@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     appTitle: 'Words Study',
     user: null,
     error: null,
-    loading: false
+    loading: false,
+    sheetValues: null
   },
   mutations: {
     setUser (state, payload) {
@@ -21,6 +22,9 @@ export const store = new Vuex.Store({
     },
     setLoading (state, payload) {
       state.loading = payload
+    },
+    setSheetValues (state, payload) {
+      state.sheetValues = payload
     }
   },
   actions: {
@@ -48,11 +52,18 @@ export const store = new Vuex.Store({
     userSignOut ({commit}) {
       // eslint-disable-next-line
       gapi.auth2.getAuthInstance().signOut()
+    },
+    selectSheet ({commit}, payload) {
+      commit('setSheetValues', payload)
+      router.push('/home')
     }
   },
   getters: {
     isAuthenticated (state) {
       return state.user !== null && state.user !== undefined
+    },
+    getSheetValues (state) {
+      return state.sheetValues
     }
   }
 })

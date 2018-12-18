@@ -23,7 +23,31 @@ import Diff from './Diff.vue'
 export default {
   data () {
     return {
-      leftStr: 'Never let your memories greater than your dreams.'
+      leftStr: 'Never let your memories greater than your dreams.',
+      curIndex: 0,
+      rowCount: 0,
+      meaningColIndex: -1,
+      spellingColIndex: -1,
+      descriptionColIndex: -1
+    }
+  },
+  computed: {
+    sheetValues () {
+      return this.$store.state.sheetValues
+    }
+  },
+  mounted () {
+    var sheetData = this.sheetValues
+    console.log(sheetData)
+    if (sheetData !== null && sheetData.length > 0) {
+      console.log(sheetData[0])
+      this.meaningColIndex = sheetData[0].indexOf('meaning')
+      this.spellingColIndex = sheetData[0].indexOf('spelling')
+      this.descriptionColIndex = sheetData[0].indexOf('description')
+      console.log(this.meaningColIndex, this.spellingColIndex, this.descriptionColIndex)
+      this.rowCount = sheetData.length - 1
+      console.log('rowCount', this.rowCount)
+      this.leftStr = sheetData[1][this.spellingColIndex]
     }
   },
   components: {

@@ -63,16 +63,13 @@ export default {
       console.log('selectSheet ()', sheetId)
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetId,
-        range: '1:2'
+        range: 'A:G'
       }).then(response => {
         console.log(response)
         var range = response.result
         if (range.values.length > 0) {
-          for (var i = 0; i < range.values.length; i++) {
-            var row = range.values[i]
-            // Print columns A and E, which correspond to indices 0 and 4.
-            console.log(row[0] + ', ' + row[4])
-          }
+          // this.$store.commit('setSheetValues', response.result.values)
+          this.$store.dispatch('selectSheet', response.result.values)
         } else {
           console.log('No data found.')
         }
