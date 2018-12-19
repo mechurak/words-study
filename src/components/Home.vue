@@ -1,25 +1,32 @@
 <template>
   <v-container fluid>
-    <v-layout row wrap>
-      <v-flex xs12 class="text-xs-center" mt-5>
-        <h1>Home page</h1>
+    <v-layout row wrap justify-center>
+      <v-flex xs12 class="text-xs-center" mt-3>
+        <h2>Home page</h2>
+      </v-flex>
+      <v-flex xs12 sm6>
+        <v-textarea
+          v-model="meaning"
+          outline
+          readonly
+          label="meaning"
+        ></v-textarea>
       </v-flex>
       <v-flex xs12 class="text-xs-center" mt-3>
-        <p>This is a user's home page</p>
-      </v-flex>
-      <v-flex xs12 class="text-xs-center" mt-3>
-        <p>{{ meaning }}</p>
-      </v-flex>
-      <v-flex v-if="showAnswer" xs12 class="text-xs-center" mt-3>
-        <p>{{ leftStr }}</p>
-      </v-flex>
-      <v-flex xs12 class="text-xs-center" mt-3>
-        <p>{{ description }}</p>
-      </v-flex>
-      <v-flex @keyup.native.alt.67="nextRow" xs12 class="text-xs-center" mt-3>
         <Diff :left-str="leftStr"/>
         <v-btn @click="nextRow">next (alt+n)</v-btn>
-        <v-btn @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
+        <v-tooltip v-model="showAnswer" bottom>
+          <v-btn slot="activator" @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
+          <span> {{ leftStr }}</span>
+        </v-tooltip>
+      </v-flex>
+      <v-flex xs12 sm6>
+        <v-textarea
+          v-model="description"
+          placeholder = "no description"
+          readonly
+          label="description"
+        ></v-textarea>
       </v-flex>
     </v-layout>
   </v-container>
