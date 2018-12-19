@@ -3,7 +3,7 @@
     <div class="backdrop">
         <div class="diff_highlights" contenteditable="true" v-html="highlightHtml"></div>
     </div>
-    <div id="input_str" contenteditable="true" @input="update">
+    <div id="input_str" ref="input_str" contenteditable="true" @input="update" >
     </div>
   </div>
 </template>
@@ -50,6 +50,12 @@ export default {
       })
 
       this.highlightHtml = resultHtml
+    }
+  },
+  watch: {
+    leftStr (newValue, oldValue) {
+      this.$refs.input_str.innerText = ''
+      this.highlightHtml = ''
     }
   }
 }
