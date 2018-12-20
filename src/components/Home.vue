@@ -4,7 +4,7 @@
       <v-flex xs12 class="text-xs-center" mt-3>
         <h2>Home page</h2>
       </v-flex>
-      <v-flex xs12 sm6>
+      <v-flex xs12 sm8>
         <v-textarea
           v-model="meaning"
           outline
@@ -12,7 +12,7 @@
           label="meaning"
         ></v-textarea>
       </v-flex>
-      <v-flex xs12 class="text-xs-center" mt-3>
+      <v-flex xs12 sm8 class="text-xs-center" mt-3>
         <Diff :left-str="leftStr"/>
         <v-btn @click="nextRow">next (alt+n)</v-btn>
         <v-tooltip v-model="showAnswer" bottom>
@@ -20,7 +20,7 @@
           <span> {{ leftStr }}</span>
         </v-tooltip>
       </v-flex>
-      <v-flex xs12 sm6>
+      <v-flex xs12 sm8>
         <v-textarea
           v-model="description"
           placeholder = "no description"

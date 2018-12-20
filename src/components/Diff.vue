@@ -63,7 +63,7 @@ export default {
 
 <style>
 .diff_container, .backdrop, #input_str {
-  width: 400px;
+  width: 100%;
   height: 120px;
 }
 .diff_highlights, #input_str {
@@ -75,6 +75,7 @@ export default {
 }
 .diff_container {
   display: block;
+  position: relative;
   margin: 0 auto;
   -webkit-text-size-adjust: none;
 }
