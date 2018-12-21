@@ -2,7 +2,8 @@
   <v-container fluid>
     <v-layout row wrap justify-center>
       <v-flex xs12 class="text-xs-center" mt-3>
-        <h2>Home page</h2>
+        <h2>{{ sheetName }}</h2>
+        (last sync : {{ loadedTime }})
       </v-flex>
       <v-flex xs12 sm8>
         <v-textarea
@@ -46,18 +47,24 @@ export default {
       rowCount: 0,
       meaningColIndex: -1,
       spellingColIndex: -1,
-      descriptionColIndex: -1
+      descriptionColIndex: -1,
+      sheetName: '',
+      loadedTime: '',
+      sheetValues: null
     }
   },
   methods: {
     nextRow () {
       console.log('nextRow')
-      var sheetData = this.sheetValues
+      if (!this.sheetValues) {
+        console.warn('!this.sheetValues')
+        return
+      }
       this.curIndex++
       if (this.curIndex > this.rowCount) this.curIndex = 1
-      this.leftStr = sheetData[this.curIndex][this.spellingColIndex]
-      this.meaning = sheetData[this.curIndex][this.meaningColIndex]
-      this.description = sheetData[this.curIndex][this.descriptionColIndex]
+      this.leftStr = this.sheetValues[this.curIndex][this.spellingColIndex]
+      this.meaning = this.sheetValues[this.curIndex][this.meaningColIndex]
+      this.description = this.sheetValues[this.curIndex][this.descriptionColIndex]
       this.showAnswer = false
     },
     checkKeyup (event) {
@@ -76,26 +83,29 @@ export default {
   destroyed () {
     window.removeEventListener('keyup', this.checkKeyup)
   },
-  computed: {
-    sheetValues () {
-      return this.$store.state.sheetValues
-    }
-  },
   mounted () {
-    var sheetData = this.sheetValues
-    console.log(sheetData)
-    if (sheetData !== null && sheetData.length > 0) {
-      console.log(sheetData[0])
-      this.meaningColIndex = sheetData[0].indexOf('meaning')
-      this.spellingColIndex = sheetData[0].indexOf('spelling')
-      this.descriptionColIndex = sheetData[0].indexOf('description')
+    var lastLoadedSheetValues = localStorage.getItem('lastLoadedSheetValues')
+    if (!lastLoadedSheetValues) {
+      console.warn('lastLoadedSheetValues does not exist in localStorage')
+      return
+    }
+
+    this.sheetName = localStorage.getItem('lastLoadedSheetName')
+    this.loadedTime = localStorage.getItem('lastLoadedTime')
+    this.sheetValues = JSON.parse(lastLoadedSheetValues)
+    console.log(this.sheetValues)
+    if (this.sheetValues !== null && this.sheetValues.length > 0) {
+      console.log(this.sheetValues[0])
+      this.meaningColIndex = this.sheetValues[0].indexOf('meaning')
+      this.spellingColIndex = this.sheetValues[0].indexOf('spelling')
+      this.descriptionColIndex = this.sheetValues[0].indexOf('description')
       console.log(this.meaningColIndex, this.spellingColIndex, this.descriptionColIndex)
-      this.rowCount = sheetData.length - 1
+      this.rowCount = this.sheetValues.length - 1
       console.log('rowCount', this.rowCount)
       this.curIndex = 1
-      this.leftStr = sheetData[this.curIndex][this.spellingColIndex]
-      this.meaning = sheetData[this.curIndex][this.meaningColIndex]
-      this.description = sheetData[this.curIndex][this.descriptionColIndex]
+      this.leftStr = this.sheetValues[this.curIndex][this.spellingColIndex]
+      this.meaning = this.sheetValues[this.curIndex][this.meaningColIndex]
+      this.description = this.sheetValues[this.curIndex][this.descriptionColIndex]
     }
   },
   components: {

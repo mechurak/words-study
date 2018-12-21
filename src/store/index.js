@@ -22,9 +22,6 @@ export const store = new Vuex.Store({
     },
     setLoading (state, payload) {
       state.loading = payload
-    },
-    setSheetValues (state, payload) {
-      state.sheetValues = payload
     }
   },
   actions: {
@@ -53,8 +50,7 @@ export const store = new Vuex.Store({
       // eslint-disable-next-line
       gapi.auth2.getAuthInstance().signOut()
     },
-    selectSheet ({commit}, payload) {
-      commit('setSheetValues', payload)
+    onSheetLoaded ({commit}) {
       router.push('/home')
     }
   },

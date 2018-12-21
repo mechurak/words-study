@@ -15,7 +15,7 @@
           <template v-for="item in items">
             <v-list-tile
               :key="item.name"
-              @click="selectSheet(item.id)"
+              @click="selectSheet(item.id, item.name)"
               >
               <v-list-tile-content>
                 <v-list-tile-title v-text="item.name"></v-list-tile-title>
@@ -59,7 +59,7 @@ export default {
         }
       })
     },
-    selectSheet (sheetId) {
+    selectSheet (sheetId, sheetName) {
       console.log('selectSheet ()', sheetId)
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetId,
@@ -68,8 +68,12 @@ export default {
         console.log(response)
         var range = response.result
         if (range.values.length > 0) {
-          // this.$store.commit('setSheetValues', response.result.values)
-          this.$store.dispatch('selectSheet', response.result.values)
+          const parsed = JSON.stringify(response.result.values)
+          localStorage.setItem('lastLoadedSheetValues', parsed)
+          localStorage.setItem('lastLoadedSheetName', sheetName)
+          var date = new Date()
+          localStorage.setItem('lastLoadedTime', date.toLocaleString())
+          this.$store.dispatch('onSheetLoaded')
         } else {
           console.log('No data found.')
         }
