@@ -1,34 +1,66 @@
 <template>
   <v-container fluid>
     <v-layout row wrap justify-center>
-      <v-flex xs12 class="text-xs-center" mt-3>
+      <v-flex xs12 class="text-xs-center">
         <h2>{{ sheetName }}</h2>
         (last sync : {{ loadedTime }})
+      </v-flex>
+      <v-flex xs9 sm6 pr-3>
+        <v-text-field
+          v-model="title"
+          readonly
+          label="title"
+        ></v-text-field>
+      </v-flex>
+      <v-flex xs3 sm2>
+        <v-text-field
+          v-model="index"
+          placeholder = "no index"
+          readonly
+          label="index"
+        ></v-text-field>
       </v-flex>
       <v-flex xs12 sm8>
         <v-textarea
           v-model="meaning"
           outline
           readonly
+          rows="2"
+          auto-grow
           label="meaning"
+          append-icon="help"
+          @click:append="showAnswer = !showAnswer"
         ></v-textarea>
       </v-flex>
-      <v-flex xs12 sm8 class="text-xs-center" mt-3>
+      <v-flex xs12 sm8 class="text-xs-center">
         <Diff :left-str="leftStr"/>
         <v-btn @click="nextRow">next (alt+n)</v-btn>
-        <v-tooltip v-model="showAnswer" bottom>
-          <v-btn slot="activator" @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
-          <span> {{ leftStr }}</span>
-        </v-tooltip>
       </v-flex>
       <v-flex xs12 sm8>
         <v-textarea
           v-model="description"
           placeholder = "no description"
           readonly
+          rows="2"
+          auto-grow
           label="description"
         ></v-textarea>
       </v-flex>
+      <v-snackbar
+        v-model="showAnswer"
+        top
+        vertical
+        timeout="3000"
+      >
+        {{ leftStr }}
+        <v-btn
+          color="pink"
+          flat
+          @click="showAnswer = false"
+        >
+          Close (alt + h)
+        </v-btn>
+      </v-snackbar>
     </v-layout>
   </v-container>
 </template>
@@ -43,11 +75,15 @@ export default {
       showAnswer: false,
       meaning: '',
       description: '',
+      title: '',
+      index: '',
       curIndex: 0,
       rowCount: 0,
       meaningColIndex: -1,
       spellingColIndex: -1,
       descriptionColIndex: -1,
+      titleColIndex: -1,
+      indexColIndex: -1,
       sheetName: '',
       loadedTime: '',
       sheetValues: null
@@ -65,6 +101,8 @@ export default {
       this.leftStr = this.sheetValues[this.curIndex][this.spellingColIndex]
       this.meaning = this.sheetValues[this.curIndex][this.meaningColIndex]
       this.description = this.sheetValues[this.curIndex][this.descriptionColIndex]
+      this.title = this.sheetValues[this.curIndex][this.titleColIndex]
+      this.index = this.sheetValues[this.curIndex][this.indexColIndex]
       this.showAnswer = false
     },
     checkKeyup (event) {
@@ -99,6 +137,8 @@ export default {
       this.meaningColIndex = this.sheetValues[0].indexOf('meaning')
       this.spellingColIndex = this.sheetValues[0].indexOf('spelling')
       this.descriptionColIndex = this.sheetValues[0].indexOf('description')
+      this.titleColIndex = this.sheetValues[0].indexOf('title')
+      this.indexColIndex = this.sheetValues[0].indexOf('index')
       console.log(this.meaningColIndex, this.spellingColIndex, this.descriptionColIndex)
       this.rowCount = this.sheetValues.length - 1
       console.log('rowCount', this.rowCount)
@@ -106,6 +146,8 @@ export default {
       this.leftStr = this.sheetValues[this.curIndex][this.spellingColIndex]
       this.meaning = this.sheetValues[this.curIndex][this.meaningColIndex]
       this.description = this.sheetValues[this.curIndex][this.descriptionColIndex]
+      this.title = this.sheetValues[this.curIndex][this.titleColIndex]
+      this.index = this.sheetValues[this.curIndex][this.indexColIndex]
     }
   },
   components: {
