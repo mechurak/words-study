@@ -5,14 +5,21 @@
         <h2>{{ sheetName }}</h2>
         (last sync : {{ loadedTime }})
       </v-flex>
-      <v-flex xs9 sm6 pr-3>
+      <v-flex xs2 sm1 pr-3>
+        <v-text-field
+          readonly
+          label="current"
+          :value="curIndex + '/' + rowCount"
+        ></v-text-field>
+      </v-flex>
+      <v-flex xs8 sm6 pr-3>
         <v-text-field
           v-model="title"
           readonly
           label="title"
         ></v-text-field>
       </v-flex>
-      <v-flex xs3 sm2>
+      <v-flex xs2 sm1>
         <v-text-field
           v-model="index"
           placeholder = "no index"
@@ -32,9 +39,28 @@
           @click:append="showAnswer = !showAnswer"
         ></v-textarea>
       </v-flex>
-      <v-flex xs12 sm8 class="text-xs-center">
-        <Diff :left-str="leftStr"/>
-        <v-btn @click="nextRow">next (alt+n)</v-btn>
+      <v-flex xs12 sm8 mb-4>
+        <v-layout row justify-center align-center>
+          <v-flex xs1 sm1>
+            <v-tooltip bottom>
+              <v-btn  slot="activator" flat icon @click="navigate(false)">
+                <v-icon>navigate_before</v-icon>
+              </v-btn>
+              <span>alt + p</span>
+            </v-tooltip>
+          </v-flex>
+          <v-flex xs10 sm10>
+            <Diff :left-str="leftStr"/>
+          </v-flex>
+          <v-flex xs1 sm1>
+            <v-tooltip bottom>
+              <v-btn  slot="activator" flat icon @click="navigate(true)">
+                <v-icon>navigate_next</v-icon>
+              </v-btn>
+              <span>alt + n</span>
+            </v-tooltip>
+          </v-flex>
+        </v-layout>
       </v-flex>
       <v-flex xs12 sm8>
         <v-textarea
@@ -90,14 +116,19 @@ export default {
     }
   },
   methods: {
-    nextRow () {
-      console.log('nextRow')
+    navigate (isNext) {
+      console.log('navigate')
       if (!this.sheetValues) {
         console.warn('!this.sheetValues')
         return
       }
-      this.curIndex++
-      if (this.curIndex > this.rowCount) this.curIndex = 1
+      if (isNext) {
+        this.curIndex++
+        if (this.curIndex > this.rowCount) this.curIndex = 1
+      } else {
+        this.curIndex--
+        if (this.curIndex < 1) this.curIndex = this.rowCount
+      }
       this.leftStr = this.sheetValues[this.curIndex][this.spellingColIndex]
       this.meaning = this.sheetValues[this.curIndex][this.meaningColIndex]
       this.description = this.sheetValues[this.curIndex][this.descriptionColIndex]
@@ -108,7 +139,9 @@ export default {
     checkKeyup (event) {
       if (event.altKey) {
         if (event.keyCode === 78) {  // 'n'
-          this.nextRow()
+          this.navigate(true)
+        } else if (event.keyCode === 80) {  // 'p'
+          this.navigate(false)
         } else if (event.keyCode === 72) {  // 'h'
           this.showAnswer = !this.showAnswer
         }
