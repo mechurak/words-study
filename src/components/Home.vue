@@ -5,64 +5,50 @@
         <h2>{{ sheetName }}</h2>
         (last sync : {{ loadedTime }})
       </v-flex>
-      <v-flex xs2 sm1 pr-3>
+      <v-flex xs3 sm2 pr-3>
         <v-text-field
           readonly
+          hide-details
           label="current"
           :value="curIndex + '/' + rowCount"
         ></v-text-field>
       </v-flex>
-      <v-flex xs8 sm6 pr-3>
+      <v-flex xs9 sm6>
         <v-text-field
           v-model="title"
           readonly
+          hide-details
           label="title"
         ></v-text-field>
       </v-flex>
-      <v-flex xs2 sm1>
-        <v-text-field
-          v-model="index"
-          placeholder = "no index"
-          readonly
-          label="index"
-        ></v-text-field>
-      </v-flex>
-      <v-flex xs12 sm8>
+      <v-flex xs12 sm8 my-1>
         <v-textarea
           v-model="meaning"
           outline
           readonly
+          hide-details
           rows="2"
           auto-grow
           label="meaning"
-          append-icon="help"
-          @click:append="showAnswer = !showAnswer"
         ></v-textarea>
       </v-flex>
-      <v-flex xs12 sm8 mb-4>
-        <v-layout row justify-center align-center>
-          <v-flex xs1 sm1>
-            <v-tooltip bottom>
-              <v-btn  slot="activator" flat icon @click="navigate(false)">
-                <v-icon>navigate_before</v-icon>
-              </v-btn>
-              <span>alt + p</span>
-            </v-tooltip>
+      <v-flex xs12 sm8 mb-1>
+        <v-layout justify-space-between>
+          <v-flex xs3>
+            <v-btn block @click="navigate(false)">prev (alt+p)</v-btn>
           </v-flex>
-          <v-flex xs10 sm10>
-            <Diff :left-str="leftStr"/>
+          <v-flex xs3>
+            <v-btn block @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
           </v-flex>
-          <v-flex xs1 sm1>
-            <v-tooltip bottom>
-              <v-btn  slot="activator" flat icon @click="navigate(true)">
-                <v-icon>navigate_next</v-icon>
-              </v-btn>
-              <span>alt + n</span>
-            </v-tooltip>
+          <v-flex xs3>
+            <v-btn block @click="navigate(true)">next (alt+n)</v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
       <v-flex xs12 sm8>
+        <Diff :left-str="leftStr"/>
+      </v-flex>
+      <v-flex xs12 sm8 mt-3>
         <v-textarea
           v-model="description"
           placeholder = "no description"
@@ -72,11 +58,20 @@
           label="description"
         ></v-textarea>
       </v-flex>
+      <v-flex xs12 sm8>
+        <v-text-field
+          v-model="index"
+          placeholder = "no index"
+          readonly
+          hide-details
+          label="index"
+        ></v-text-field>
+      </v-flex>
       <v-snackbar
         v-model="showAnswer"
         top
         vertical
-        timeout="3000"
+        :timeout="2000"
       >
         {{ leftStr }}
         <v-btn
@@ -84,7 +79,7 @@
           flat
           @click="showAnswer = false"
         >
-          Close (alt + h)
+          Close
         </v-btn>
       </v-snackbar>
     </v-layout>
