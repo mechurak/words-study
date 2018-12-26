@@ -41,12 +41,16 @@
             <v-btn block @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
           </v-flex>
           <v-flex xs3>
+            <v-btn block @click="useChipsDiff = !useChipsDiff; navigate(true)">toggle type</v-btn>
+          </v-flex>
+          <v-flex xs3>
             <v-btn block @click="navigate(true)">next (alt+n)</v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
       <v-flex xs12 sm8>
-        <Diff :left-str="leftStr"/>
+        <Diff :left-str="leftStr" v-if="!useChipsDiff"/>
+        <chips-diff :left-str="leftStr" v-if="useChipsDiff"/>
       </v-flex>
       <v-flex xs12 sm8 mt-3>
         <v-textarea
@@ -88,11 +92,13 @@
 
 <script>
 import Diff from './Diff.vue'
+import ChipsDiff from './ChipsDiff.vue'
 
 export default {
   data () {
     return {
       leftStr: 'Never let your memories greater than your dreams.',
+      useChipsDiff: false,
       showAnswer: false,
       meaning: '',
       description: '',
@@ -179,7 +185,8 @@ export default {
     }
   },
   components: {
-    Diff
+    Diff,
+    ChipsDiff
   }
 }
 </script>
