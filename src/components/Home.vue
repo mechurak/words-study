@@ -34,17 +34,23 @@
       </v-flex>
       <v-flex xs12 sm8 mb-1>
         <v-layout justify-space-between>
-          <v-flex xs3>
-            <v-btn block @click="navigate(false)">prev (alt+p)</v-btn>
+          <v-flex xs3 ma-1>
+            <v-btn block @click="navigate(false)">
+              {{ $vuetify.breakpoint.lgAndUp? 'prev (alt+p)' : 'prev' }}
+            </v-btn>
           </v-flex>
-          <v-flex xs3>
-            <v-btn block @click="showAnswer = !showAnswer">hint (alt+h)</v-btn>
+          <v-flex xs3 ma-1>
+            <v-btn block @click="showAnswer = !showAnswer">
+              {{ $vuetify.breakpoint.lgAndUp? 'hint (alt+h)' : 'hint' }}
+            </v-btn>
           </v-flex>
-          <v-flex xs3>
-            <v-btn block @click="useChipsDiff = !useChipsDiff; navigate(true)">toggle type</v-btn>
+          <v-flex xs3 ma-1>
+            <v-btn block @click="useChipsDiff = !useChipsDiff; navigate(true)">toggle</v-btn>
           </v-flex>
-          <v-flex xs3>
-            <v-btn block @click="navigate(true)">next (alt+n)</v-btn>
+          <v-flex xs3 ma-1>
+            <v-btn block @click="navigate(true)">
+              {{ $vuetify.breakpoint.lgAndUp? 'next (alt+n)' : 'next' }}
+            </v-btn>
           </v-flex>
         </v-layout>
       </v-flex>

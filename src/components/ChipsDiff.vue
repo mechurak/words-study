@@ -1,29 +1,27 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap>
-      <v-flex xs12 sm12>
-        <v-textarea
-          v-model="inputStr"
-          outline
-          readonly
-          hide-details
-          rows="2"
-          auto-grow
-          label="spelling"
-        ></v-textarea>
-      </v-flex>
-      <v-flex xs12 sm12>
-        <v-chip
-          v-for="(item, index) in suffledLeftStrArray"
-          :key="index"
-          @click="selectWord(item, index)"
-          v-if="item.length>0"
-        >
-          {{ item }}
-        </v-chip>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout row wrap>
+    <v-flex xs12 sm12>
+      <v-textarea
+        v-model="inputStr"
+        box
+        readonly
+        hide-details
+        rows="2"
+        auto-grow
+        label="spelling"
+      ></v-textarea>
+    </v-flex>
+    <v-flex xs12 sm12>
+      <v-chip
+        v-for="(item, index) in suffledLeftStrArray"
+        :key="index"
+        @click="selectWord(item, index)"
+        v-if="item.length>0"
+      >
+        {{ item }}
+      </v-chip>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
