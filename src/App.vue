@@ -46,11 +46,11 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    
+
     <v-content>
       <router-view></router-view>
     </v-content>
-    
+
   </v-app>
 </template>
 
@@ -73,7 +73,8 @@
         if (this.isAuthenticated) {
           return [
             { title: 'Home', path: '/home', icon: 'home' },
-            { title: 'Load', path: '/load', icon: 'cloud_download' }
+            { title: 'Load', path: '/load', icon: 'cloud_download' },
+            { title: 'Select', path: '/select', icon: 'list' }
           ]
         } else {
           return [

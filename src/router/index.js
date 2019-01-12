@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const routerOptions = [
   { path: '/', component: 'Landing' },
   { path: '/load', component: 'Load', meta: { requiresAuth: true } },
+  { path: '/select', component: 'Select', meta: {requiresAuth: true} },
   { path: '/home', component: 'Home', meta: { requiresAuth: true } },
   { path: '*', component: 'NotFound' }
 ]
